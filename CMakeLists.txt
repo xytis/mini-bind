@@ -5,9 +5,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
 
 # Global vars
 
-SET(CMAKE_PROJECT_NAME "ProjectName")
+SET(CMAKE_PROJECT_NAME "MiniBind")
 
-SET(EXECUTABLE_NAME "Executable")
+SET(EXECUTABLE_NAME "Test")
 
 SET(EXECUTABLE_VERSION_MAJOR "0")
 SET(EXECUTABLE_VERSION_MINOR "0")
@@ -35,16 +35,6 @@ MACRO_ENSURE_OUT_OF_SOURCE_BUILD("${PROJECT_NAME}  requires an out of source bui
 # Another macro used in this project to add sources efficiently.
 INCLUDE(Macro_AddSources)
 
-INCLUDE ( Setup_OGRE )
-
-FIND_PACKAGE ( SDL REQUIRED )
-FIND_PACKAGE ( SDL_image REQUIRED )
-FIND_PACKAGE ( SDL_ttf REQUIRED )
-
-#Add aditional components.
-FIND_PACKAGE ( Boost COMPONENTS serialization system filesystem REQUIRED )
-
-
 MESSAGE(STATUS "Current built type: ${CMAKE_BUILD_TYPE}")
 MESSAGE(STATUS "Current build type flags: ${CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}}")
 
@@ -57,10 +47,6 @@ ADD_SUBDIRECTORY( src )
 #Line below outputs all included source.
 MACRO_PRINT_SOURCES()
 
-INCLUDE_DIRECTORIES(
-    ${Boost_INCLUDE_DIR}
-)
-
 ADD_EXECUTABLE(
     ${EXECUTABLE_NAME}
     ${PROJECT_SOURCES}
@@ -68,11 +54,4 @@ ADD_EXECUTABLE(
 
 TARGET_LINK_LIBRARIES(
     ${EXECUTABLE_NAME}
-    ${SDL_LIBRARY}
-    ${SDLIMAGE_LIBRARY}
-    ${SDLTTF_LIBRARY}
-    ${Boost_LIBRARIES}
-    ${OGRE_LIBRARIES}
 )
-
-INCLUDE( Action_InstallOGRE )
