@@ -17,6 +17,7 @@
  */
 
 #include <iostream>
+#include <functional>
 #include "minibind.hpp"
 
 void f0 () {
@@ -39,13 +40,27 @@ int sum (int a, int b) {
   return a + b;
 }
 
+struct A {
+  void mem() {
+    std::cout << " mem called " << std::endl;
+  }
+  int m2(int a, int b) {
+    std::cout << " m2 called with a=" << a << " b=" << b << std::endl;
+  }
+};
+
 int main(int argc, const char * argv[]) {
   bind<void>(&f0)();
   bind<void>(&f1, _1)(1);
   bind<void>(&f2, _2, _1)(2,1);
   bind<void>(&f3, 1, 2, 3)();
   bind<void>(&f3, _1, _1, _1)(0);
+  bind<void>(&f3, _1, _2, _3)(1,2,3);
   for (int i = 0; i < 5; ++i) {
     std::cout << "Sum of 1 + " << i << " is " << bind<int>(&sum, 1, _1)(i) << std::endl;
   }
+  A a;
+  bind<void>(std::mem_fn(&A::mem), &a)();
+  bind<int>(std::mem_fn(&A::m2), &a, _1, _2)(2,3);
+
 }

@@ -42,7 +42,6 @@ class param_list0 {
       T operator[](T v) const { return v; }
 };
 
-
 template<typename R, typename P1>
 class param_list1 {
   public:
@@ -128,6 +127,12 @@ class binder {
     template<typename P1, typename P2>
       R operator()(P1 p1, P2 p2) {
         param_list2<R, P1, P2> list(p1, p2);
+        return list_(f_, list);
+      }
+
+    template<typename P1, typename P2, typename P3>
+      R operator()(P1 p1, P2 p2, P3 p3) {
+        param_list3<R, P1, P2, P3> list(p1, p2, p3);
         return list_(f_, list);
       }
   private:
